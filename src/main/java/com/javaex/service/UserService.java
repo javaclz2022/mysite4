@@ -18,6 +18,17 @@ public class UserService {
 	//메소드 gs
 	
 	//메소드 일반
+	
+	//로그인
+	public UserVo login(UserVo userVo) {
+		System.out.println("UserService.login()");
+		
+		UserVo authUser = userDao.getUser(userVo);
+		
+		return authUser;
+	}
+	
+	//회원가입
 	public int join(UserVo userVo) {
 		System.out.println("UserService.join()");
 		

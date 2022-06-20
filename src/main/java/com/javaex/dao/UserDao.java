@@ -17,6 +17,18 @@ public class UserDao {
 	//메소드 gs
 	
 	//메소드 일반
+	
+	//회원정보 가져오기(로그인)
+	public UserVo getUser(UserVo userVo) {
+		System.out.println("UserDao.getUser()");
+		
+		UserVo authUser = sqlSession.selectOne("user.getUser", userVo);
+		
+		return authUser;
+	}
+	
+	
+	//회원정보 저장(회원가입)
 	public int userInsert(UserVo userVo) {
 		System.out.println("UserDao.userInsert()");
 		
