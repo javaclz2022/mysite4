@@ -6,49 +6,17 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<link href="/mysite4/assets/css/mysite.css" rel="stylesheet" type="text/css">
-<link href="/mysite4/assets/css/main.css" rel="stylesheet" type="text/css">
+<link href="${pageContext.request.contextPath}/assets/css/mysite.css" rel="stylesheet" type="text/css">
+<link href="${pageContext.request.contextPath}/assets/css/main.css" rel="stylesheet" type="text/css">
 
 </head>
 
 <body>
 	<div id="wrap">
 
-		<div id="header" class="clearfix">
-			<h1>
-				<a href="">MySite</a>
-			</h1>
-
-			<c:choose>
-				<c:when test="${sessionScope.authUser != null}">
-					<!-- 로그인 성공했을때 -->	
-					<ul>
-						<li>황일영 님 안녕하세요^^</li>
-						<li><a href="" class="btn_s">로그아웃</a></li>
-						<li><a href="" class="btn_s">회원정보수정</a></li>
-					</ul>
-				</c:when>
-				<c:otherwise>
-					<!-- 로그인 실패, 전 -->	
-					<ul>
-						<li><a href="" class="btn_s">로그인</a></li>
-						<li><a href="" class="btn_s">회원가입</a></li>
-					</ul>
-				</c:otherwise>
-			</c:choose>
-			
-		</div>
-		<!-- //header -->
-
-		<div id="nav">
-			<ul class="clearfix">
-				<li><a href="">입사지원서</a></li>
-				<li><a href="">게시판</a></li>
-				<li><a href="">갤러리</a></li>
-				<li><a href="">방명록</a></li>
-			</ul>
-		</div>
-		<!-- //nav -->
+		<!-- header + nav -->
+		<c:import url="/WEB-INF/views/include/header.jsp"></c:import>
+		<!-- //header + //nav -->
 
 		
 		<div id="container" class="clearfix">
@@ -58,7 +26,7 @@
 				<!-- content-head 없음 -->
 				<div id="index"> 
 				
-					<img id="profile-img" src="/mysite4/assets/image/profile.jpg">
+					<img id="profile-img" src="${pageContext.request.contextPath}/assets/image/profile.jpg">
 					
 					<div id="greetings">
 						<p class="text-xlarge">
@@ -93,11 +61,10 @@
 		</div>
 		<!-- //container -->
 		
-		
-		<div id="footer">
-			Copyright ⓒ 2022 정우성. All right reserved
-		</div>
+		<!-- footer -->
+		<c:import url="/WEB-INF/views/include/footer.jsp"></c:import>
 		<!-- //footer -->
+	
 
 	</div>
 	<!-- //wrap -->
