@@ -18,9 +18,31 @@ public class GuestBookService {
 	public List<GuestbookVo> getGuestList(){
 		System.out.println("GuestBookService>getGuestList()");
 		
-		guestbookDao.selectList();
+		List<GuestbookVo> guestbookList = guestbookDao.selectList();
 		
-		return null;
+		return guestbookList;
 	}
+	
+	
+	//방명록 저장(ajax)
+	public GuestbookVo addGuest(GuestbookVo guestbookVo) {
+		System.out.println("GuestBookService>addGuest()");
+		
+		
+		//저장
+		System.out.println("전-->" + guestbookVo);
+		int count = guestbookDao.insertGuest(guestbookVo);
+		System.out.println("후-->" + guestbookVo);
+		
+		int no =guestbookVo.getNo();
+		
+		//방금저장한 1개의 데이터를 가져온다
+		GuestbookVo gVo = guestbookDao.getGuest(no);
+		
+		return gVo;
+	}
+	
+	
+	
 	
 }

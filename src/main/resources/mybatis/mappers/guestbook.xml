@@ -3,8 +3,9 @@
 
 <mapper namespace="guestbook">
 
-	
-	<select id="selectList"  resultType="com.javaex.vo.GuestbookVo">
+
+	<!-- 전체리스트 가져오기 -->
+	<select id="selectList" resultType="com.javaex.vo.GuestbookVo">
 		<![CDATA[
 			select  no, 
 					name, 
@@ -15,6 +16,33 @@
 			order by no desc
 		]]>
 	</select>
+
+
+	<!-- 방명록 저장(ajax) -->
+	<insert id="insertSelectKey" parameterType="com.javaex.vo.GuestbookVo">
+
+		<selectKey keyProperty="no" resultType="int" order="BEFORE">
+			select seq_guestbook_no.nextval from dual
+		</selectKey>
+
+		<![CDATA[	
+			insert into guestbook
+         	values ( #{no }, #{name }, #{password }, #{content }, SYSDATE )
+    	]]>
+
+	</insert>
+
+	<!-- 방명록 1개의 데이타 조회하기 -->
+	<select id="getGuest" parameterType="int" resultType="com.javaex.vo.GuestbookVo">
+		<![CDATA[
+			select no, name, password, content, reg_date regDate
+			from guestbook
+			where no = #{no}
+		]]>
+	
+	
+	</select>
+
 
 
 
