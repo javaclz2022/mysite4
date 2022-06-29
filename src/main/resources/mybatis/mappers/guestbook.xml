@@ -43,6 +43,14 @@
 	
 	</select>
 
+	<!-- 방명록 1개 데이타 삭제하기 -->
+	<delete id="delete" parameterType="com.javaex.vo.GuestbookVo">
+		<![CDATA[
+			delete guestbook
+			where no = #{no}
+			and password = #{password}
+		]]>
+	</delete>
 
 
 
