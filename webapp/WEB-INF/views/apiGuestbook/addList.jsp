@@ -142,6 +142,53 @@ $(document).ready(function(){
 });
 
 /* 저장버튼을 클릭했을때 */
+//jquery 요청(json)
+$("#btnSubmit").on("click", function(){
+	console.log("저장버튼 클릭");
+	
+	//데이터수집
+	var name = $("[name='name']").val();
+	var password = $("[name='password']").val();
+	var content = $("[name=content]").val();
+	
+	//데이터 객체로 묶기
+	var guestVo = {
+		name: name,
+		password: password,
+		content: content
+	};
+	
+	
+	
+	$.ajax({
+		url : "${pageContext.request.contextPath }/api/guestbook/add2",		
+		type : "post",
+		contentType : "application/json",
+		data : JSON.stringify(guestVo),   //js객체를 JSON문자열로 변경
+
+		dataType : "json",
+		success : function(gVo){
+
+			//1개데이터 리스트 추가(그리기)하기
+			render(gVo, "up");
+			
+			//입력폼 초기화
+			$("[name='name']").val("");
+			$("[name='password']").val("");
+			$("[name='content']").val("");
+			
+		},
+		error : function(XHR, status, error) {
+			console.error(status + " : " + error);
+		}
+	});
+	
+
+});
+
+
+/*
+//jquery 요청(파라미터)
 $("#btnSubmit").on("click", function(){
 	console.log("저장버튼 클릭");
 	
@@ -159,7 +206,7 @@ $("#btnSubmit").on("click", function(){
 	
 	$.ajax({
 		
-		/* url : "${pageContext.request.contextPath }/api/guestbook/add?name="+name+"&password="+password+"&content="+content,	 */
+		//url : "${pageContext.request.contextPath }/api/guestbook/add?name="+name+"&password="+password+"&content="+content
 		url : "${pageContext.request.contextPath }/api/guestbook/add",		
 		type : "post",
 		//contentType : "application/json",
@@ -168,10 +215,10 @@ $("#btnSubmit").on("click", function(){
 		dataType : "json",
 		success : function(gVo){
 
-			/* 1개데이터 리스트 추가(그리기)하기 */
+			//1개데이터 리스트 추가(그리기)하기
 			render(gVo, "up");
 			
-			/* 입력폼 초기화 */
+			//입력폼 초기화
 			$("[name='name']").val("");
 			$("[name='password']").val("");
 			$("[name='content']").val("");
@@ -183,7 +230,7 @@ $("#btnSubmit").on("click", function(){
 	});
 
 });
-
+*/
 
 //리스트의 삭제버튼을 클릭할때
 $("#listArea").on("click", ".btnDel", function(){
