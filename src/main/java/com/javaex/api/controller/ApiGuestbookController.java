@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -55,6 +56,23 @@ public class ApiGuestbookController {
 		
 		return gVo;
 	}
+	
+	
+	//방명록 저장
+	@ResponseBody
+	@RequestMapping(value="/api/guestbook/add2", method = {RequestMethod.GET, RequestMethod.POST})
+	public GuestbookVo add2(@RequestBody GuestbookVo guestbookVo) {
+		System.out.println("ApiGuestbookController>add2()");
+		System.out.println(guestbookVo);
+		
+		GuestbookVo gVo = guestbookService.addGuest(guestbookVo);
+		
+		return gVo;
+	}
+	
+	
+	
+	
 	
 	
 	//방명록 삭제
