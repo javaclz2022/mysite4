@@ -30,7 +30,7 @@ public class UserController {
 		if(authUser != null) { //로그인성공
 			System.out.println("로그인 성공");
 			session.setAttribute("authUser", authUser);
-			return "redirect:main";
+			return "redirect:/main";
 			
 		}else {  //로그인실패
 			System.out.println("로그인 실패");
