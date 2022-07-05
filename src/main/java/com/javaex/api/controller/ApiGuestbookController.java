@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.javaex.service.GuestBookService;
+import com.javaex.service.GuestbookService;
 import com.javaex.vo.GuestbookVo;
 
 
@@ -18,7 +18,7 @@ import com.javaex.vo.GuestbookVo;
 public class ApiGuestbookController {
 
 	@Autowired
-	private GuestBookService guestbookService;
+	private GuestbookService guestbookService;
 	
 	
 	//방명록 첫페이지(*등록폼+리스트(ajax))
