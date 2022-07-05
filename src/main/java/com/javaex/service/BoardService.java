@@ -1,6 +1,8 @@
 package com.javaex.service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,13 +17,70 @@ public class BoardService {
 	private BoardDao boardDao;
 
 	//리스트(일반)
-	public List<BoardVo> getBoardList4(){
+	public Map<String, Object> getBoardList4(int crtPage){
 		System.out.println("BoardService>getBoardList4()");
 		
-		List<BoardVo> boardList = boardDao.selectList4();
+		/////////////////////////////////////////////
+		// 리스트가져오기
+		/////////////////////////////////////////////
 		
-		return boardList;
+		//페이지당 글갯수
+		int listCnt = 10;
+		
+		//현재페이지
+		crtPage = (crtPage>0) ? crtPage : (crtPage=1);
+		
+		//시작글번호
+		int startRnum = (crtPage-1)*listCnt + 1 ;
+		
+		//끝글번호
+		int endRnum = (startRnum + listCnt) - 1;
+		
+		List<BoardVo> boardList = boardDao.selectList4(startRnum, endRnum);
+		
+		//////////////////////////////////////////////
+		// 페이징 계산
+		//////////////////////////////////////////////
+		
+		//전체글갯수
+		int totalCnt = boardDao.selectTotalCnt();
+		
+		//페이지당 버튼 갯수
+		int pageBtnCount = 5;
+		
+		//마지막 버튼 번호
+		int endPageBtnNo = (int)Math.ceil(crtPage/(double)pageBtnCount)*pageBtnCount  ;
+		
+		//마지막 버튼 번호
+		int startPageBtnNo = (endPageBtnNo-pageBtnCount)+1;
+		
+        //다음 화살표 유무
+        boolean next = false;
+        if( (listCnt*endPageBtnNo) < totalCnt  ) {
+        	 next=true;
+        
+        }else {
+        	endPageBtnNo =(int)Math.ceil(totalCnt/(double)listCnt);       
+        }
+       
+        //이전 화살표 유무
+        boolean prev = false;
+        if(startPageBtnNo != 1) {
+        	prev=true;
+        }
+        
+        //리스트 페이징 정보 묶기
+        Map<String, Object> pMap = new HashMap<String, Object>();
+        pMap.put("boardList", boardList);
+        pMap.put("prev", prev);
+        pMap.put("startPageBtnNo", startPageBtnNo);
+        pMap.put("endPageBtnNo", endPageBtnNo);
+        pMap.put("next", next);
+        
+		return pMap;
 	}
+	
+
 	
 	
 	

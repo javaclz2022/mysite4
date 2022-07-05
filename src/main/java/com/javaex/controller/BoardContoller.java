@@ -1,6 +1,7 @@
 package com.javaex.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -25,11 +26,14 @@ public class BoardContoller {
 
 	// 리스트(일반)
 	@RequestMapping(value = "/list4", method = { RequestMethod.GET, RequestMethod.POST })
-	public String list4(Model model) {
+	public String list4(Model model, 
+					    @RequestParam(value="crtPage", required = false, defaultValue = "1") int crtPage ) {
 		System.out.println("BoardContoller>list4()");
 		
-		List<BoardVo> boardList = boardService.getBoardList4();
-		model.addAttribute("boardList", boardList);
+		Map<String, Object> pMap = boardService.getBoardList4(crtPage);
+		model.addAttribute("pMap", pMap);
+		
+		System.out.println("controller --> " + pMap);
 		
 		return "board/list4";
 	}
