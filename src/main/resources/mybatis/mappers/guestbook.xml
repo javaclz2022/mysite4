@@ -10,7 +10,7 @@
 			select  no, 
 					name, 
 					password, 
-					content, 
+					content,
 					reg_date regDate
 			from guestbook
 			order by no desc
