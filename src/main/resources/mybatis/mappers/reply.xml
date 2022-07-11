@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="reply">
+
+	<!-- 글전체가져오기(리스트만 출력할때) -->
+	<select id="selectList" resultType="com.javaex.vo.ReplyVo">
+		<![CDATA[
+			select  r.no,
+			        r.title,
+			        r.content,
+			        r.hit,
+			        r.reg_date regDate,
+			        r.user_No userNo,
+			        u.name userName,
+			        r.group_no groupNo,
+			        r.order_no orderNo,
+			        r.depth
+			from replyboard r, users u
+			where r.user_No = u.no
+			order by groupNo desc,
+			orderNo asc
+		]]>
+	</select>
+
+
+	<!-- 글저장 -->
+	<insert id="insert" parameterType="com.javaex.vo.ReplyVo">
+		<choose>
+			<when test="groupNo == 0 or groupNo == '' ">
+				<![CDATA[
+				insert into replyboard 
+				values ( seq_replyboard_no.nextval, 
+						 #{title}, 
+						 #{content}, 
+						 0, 
+						 sysdate, 
+						 #{userNo},
+						 seq_replyboard_no.currval,
+						 1,
+						 0)
+				]]>
+			</when>
+			<otherwise>
+				<![CDATA[
+				insert into replyboard 
+				values ( seq_replyboard_no.nextval, 
+						 #{title}, 
+						 #{content}, 
+						 0, 
+						 sysdate, 
+						 #{userNo},
+						 #{groupNo },
+						 #{orderNo },
+						 #{depth })
+				]]>
+			</otherwise>
+		</choose>
+	</insert>
+
+
+	<!-- 글1개가져오기 -->
+	<select id="select" parameterType="int" resultType="com.javaex.vo.ReplyVo">
+		<![CDATA[
+			select  r.no,
+			        r.title,
+			        r.content,
+			        r.hit,
+			        r.reg_date regDate,
+			        r.user_No userNo,
+			        u.name userName,
+			        r.group_no groupNo,
+			        r.order_no orderNo,
+			        r.depth
+			from replyboard r, users u
+			where r.user_No = u.no
+			and r.no = #{no}
+		]]>
+	</select>
+
+
+	<!-- 조회수 올리기 -->
+	<update id="updateHit" parameterType="int">
+		<![CDATA[
+			update replyBoard 
+			set hit = hit+1
+			where no = #{no}
+		]]>
+	</update>
+
+
+	<!-- 글 수정 : 자신의 글만 수정되도록 조건절에 usr_no도 비교-->
+	<update id="update" parameterType="com.javaex.vo.ReplyVo">
+		<![CDATA[
+			update replyboard
+			set title=#{title },
+		   		content=#{content }
+			where no=#{no }
+		  	and user_no = #{userNo}
+		]]>
+	</update>
+
+
+	<!-- orderNo값 증가시키기 -->
+	<update id="increaseOrderNo" parameterType="com.javaex.vo.ReplyVo">
+		<![CDATA[
+			update replyboard
+			set order_no = order_no+1
+			where group_no = #{groupNo }
+			and order_no > #{orderNo }
+		]]>
+	</update>
+	
+	
+	<!-- 글삭제 : 자신의 글만 삭제되도록 조건절에 usr_no도 비교 -->
+	<delete id="delete" parameterType="com.javaex.vo.ReplyVo">
+		<![CDATA[
+			delete from replyboard 
+			where no = #{no}
+			and user_no = #{userNo}
+		]]>
+	</delete>
+
+</mapper>
